@@ -1,87 +1,87 @@
-# プライベートブロックチェーン社内データ管理システム - 開発ガイドライン
+# Private Blockchain Corporate Data Management System - Development Guidelines
 
-## プロジェクト概要
+## Project Overview
 
-このプロジェクトは、プライベートブロックチェーン技術を活用した企業向け社内データ管理システムです。データの改ざん防止、透明性の確保、アクセス制御を実現し、企業の重要なデータを安全に管理します。
+This project is a corporate data management system that leverages private blockchain technology. It ensures data integrity prevention, transparency, and access control to securely manage critical corporate data.
 
-## 技術スタック
+## Technology Stack
 
-### バックエンド
-- **言語**: Go 1.21+
-- **ブロックチェーン**: Hyperledger Fabric または独自実装
-- **データベース**: PostgreSQL
+### Backend
+- **Language**: Go 1.21+
+- **Blockchain**: Hyperledger Fabric or custom implementation
+- **Database**: PostgreSQL
 - **API**: REST API (Gin Framework)
-- **認証**: JWT + RBAC (Role-Based Access Control)
-- **暗号化**: AES-256, RSA
+- **Authentication**: JWT + RBAC (Role-Based Access Control)
+- **Encryption**: AES-256, RSA
 
-### フロントエンド（将来実装）
-- **フレームワーク**: React/Next.js
-- **状態管理**: Redux Toolkit
+### Frontend (Future Implementation)
+- **Framework**: React/Next.js
+- **State Management**: Redux Toolkit
 - **UI**: Material-UI
 
-## システム要件
+## System Requirements
 
-### 機能要件
+### Functional Requirements
 
-#### 1. ユーザー管理
-- ユーザー登録・認証（管理者による承認制）
-- 役割ベースのアクセス制御（Admin, Manager, Employee, Guest）
-- プロファイル管理
-- ログイン履歴の追跡
+#### 1. User Management
+- User registration and authentication (admin approval required)
+- Role-based access control (Admin, Manager, Employee, Guest)
+- Profile management
+- Login history tracking
 
-#### 2. データ管理
-- ドキュメントの登録・更新・削除
-- バージョン管理
-- メタデータ管理（作成者、更新日時、カテゴリ等）
-- ファイルの暗号化保存
+#### 2. Data Management
+- Document registration, update, and deletion
+- Version control
+- Metadata management (creator, modification date, category, etc.)
+- Encrypted file storage
 
-#### 3. ブロックチェーン機能
-- データ操作の全履歴をブロックチェーンに記録
-- 改ざん検知機能
-- データの整合性検証
-- トランザクションの追跡
+#### 3. Blockchain Features
+- Record all data operations on blockchain
+- Tamper detection functionality
+- Data integrity verification
+- Transaction tracking
 
-#### 4. アクセス制御
-- ファイル/フォルダ単位でのアクセス権限設定
-- 部門別のデータアクセス制御
-- 機密レベルに応じたアクセス制限
+#### 4. Access Control
+- File/folder-level access permission settings
+- Department-based data access control
+- Access restrictions based on confidentiality levels
 
-#### 5. 監査機能
-- 全ての操作ログの記録
-- アクセスログの可視化
-- コンプライアンスレポート生成
+#### 5. Audit Features
+- Recording of all operation logs
+- Access log visualization
+- Compliance report generation
 
-#### 6. 検索・フィルタリング
-- 全文検索
-- メタデータ検索
-- 高度なフィルタリング機能
+#### 6. Search and Filtering
+- Full-text search
+- Metadata search
+- Advanced filtering capabilities
 
-### 非機能要件
+### Non-Functional Requirements
 
-#### 1. セキュリティ
-- データの暗号化（保存時・転送時）
-- 多要素認証（MFA）
-- セキュリティログの監視
-- 定期的なセキュリティ監査
+#### 1. Security
+- Data encryption (at rest and in transit)
+- Multi-factor authentication (MFA)
+- Security log monitoring
+- Regular security audits
 
-#### 2. パフォーマンス
-- API応答時間: 95%以上のリクエストが500ms以内
-- 同時接続数: 1000ユーザー
-- データベース応答時間: 100ms以内
+#### 2. Performance
+- API response time: 95%+ of requests within 500ms
+- Concurrent connections: 1000 users
+- Database response time: within 100ms
 
-#### 3. 可用性
-- システム稼働率: 99.9%以上
-- 自動バックアップ（日次・週次）
-- 災害復旧計画
+#### 3. Availability
+- System uptime: 99.9%+
+- Automated backups (daily and weekly)
+- Disaster recovery plan
 
-#### 4. スケーラビリティ
-- 水平スケーリング対応
-- マイクロサービスアーキテクチャ
-- コンテナ化（Docker）
+#### 4. Scalability
+- Horizontal scaling support
+- Microservices architecture
+- Containerization (Docker)
 
-## アーキテクチャ設計
+## Architecture Design
 
-### システム構成
+### System Configuration
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -100,42 +100,42 @@
                          └─────────────────┘
 ```
 
-### ディレクトリ構造
+### Directory Structure
 
 ```
-├── cmd/                    # アプリケーションエントリーポイント
+├── cmd/                    # Application entry points
 │   └── server/
-├── internal/               # 内部パッケージ
-│   ├── api/               # API関連
-│   │   ├── handlers/      # HTTPハンドラー
-│   │   ├── middleware/    # ミドルウェア
-│   │   └── routes/        # ルーティング
-│   ├── blockchain/        # ブロックチェーン関連
-│   │   ├── block/         # ブロック構造
-│   │   ├── chain/         # チェーン管理
-│   │   ├── consensus/     # コンセンサス
-│   │   └── transaction/   # トランザクション
-│   ├── config/            # 設定管理
-│   ├── database/          # データベース関連
-│   │   ├── migrations/    # マイグレーション
-│   │   └── models/        # データモデル
-│   ├── security/          # セキュリティ関連
-│   │   ├── auth/          # 認証
-│   │   ├── crypto/        # 暗号化
-│   │   └── rbac/          # 役割ベースアクセス制御
-│   └── services/          # ビジネスロジック
-├── pkg/                   # 外部パッケージ
-├── scripts/               # スクリプト
-├── deployments/           # デプロイメント設定
-├── docs/                  # ドキュメント
-└── tests/                 # テスト
+├── internal/               # Internal packages
+│   ├── api/               # API related
+│   │   ├── handlers/      # HTTP handlers
+│   │   ├── middleware/    # Middleware
+│   │   └── routes/        # Routing
+│   ├── blockchain/        # Blockchain related
+│   │   ├── block/         # Block structure
+│   │   ├── chain/         # Chain management
+│   │   ├── consensus/     # Consensus
+│   │   └── transaction/   # Transaction
+│   ├── config/            # Configuration management
+│   ├── database/          # Database related
+│   │   ├── migrations/    # Migrations
+│   │   └── models/        # Data models
+│   ├── security/          # Security related
+│   │   ├── auth/          # Authentication
+│   │   ├── crypto/        # Encryption
+│   │   └── rbac/          # Role-Based Access Control
+│   └── services/          # Business logic
+├── pkg/                   # External packages
+├── scripts/               # Scripts
+├── deployments/           # Deployment configuration
+├── docs/                  # Documentation
+└── tests/                 # Tests
 ```
 
-## データモデル
+## Data Models
 
-### 主要エンティティ
+### Main Entities
 
-#### User（ユーザー）
+#### User
 ```go
 type User struct {
     ID        uint      `json:"id" gorm:"primaryKey"`
@@ -149,7 +149,7 @@ type User struct {
 }
 ```
 
-#### Document（ドキュメント）
+#### Document
 ```go
 type Document struct {
     ID          uint      `json:"id" gorm:"primaryKey"`
@@ -164,7 +164,7 @@ type Document struct {
 }
 ```
 
-#### BlockchainRecord（ブロックチェーン記録）
+#### BlockchainRecord
 ```go
 type BlockchainRecord struct {
     ID            uint      `json:"id" gorm:"primaryKey"`
@@ -177,94 +177,94 @@ type BlockchainRecord struct {
 }
 ```
 
-## API設計
+## API Design
 
-### 認証エンドポイント
-- `POST /api/v1/auth/login` - ログイン
-- `POST /api/v1/auth/refresh` - トークン更新
-- `POST /api/v1/auth/logout` - ログアウト
+### Authentication Endpoints
+- `POST /api/v1/auth/login` - Login
+- `POST /api/v1/auth/refresh` - Token refresh
+- `POST /api/v1/auth/logout` - Logout
 
-### ユーザー管理
-- `GET /api/v1/users` - ユーザー一覧取得
-- `POST /api/v1/users` - ユーザー作成
-- `GET /api/v1/users/{id}` - ユーザー詳細取得
-- `PUT /api/v1/users/{id}` - ユーザー更新
-- `DELETE /api/v1/users/{id}` - ユーザー削除
+### User Management
+- `GET /api/v1/users` - Get user list
+- `POST /api/v1/users` - Create user
+- `GET /api/v1/users/{id}` - Get user details
+- `PUT /api/v1/users/{id}` - Update user
+- `DELETE /api/v1/users/{id}` - Delete user
 
-### ドキュメント管理
-- `GET /api/v1/documents` - ドキュメント一覧取得
-- `POST /api/v1/documents` - ドキュメント作成
-- `GET /api/v1/documents/{id}` - ドキュメント詳細取得
-- `PUT /api/v1/documents/{id}` - ドキュメント更新
-- `DELETE /api/v1/documents/{id}` - ドキュメント削除
+### Document Management
+- `GET /api/v1/documents` - Get document list
+- `POST /api/v1/documents` - Create document
+- `GET /api/v1/documents/{id}` - Get document details
+- `PUT /api/v1/documents/{id}` - Update document
+- `DELETE /api/v1/documents/{id}` - Delete document
 
-### ブロックチェーン
-- `GET /api/v1/blockchain/blocks` - ブロック一覧取得
-- `GET /api/v1/blockchain/transactions/{id}` - トランザクション詳細
-- `POST /api/v1/blockchain/verify` - データ整合性検証
+### Blockchain
+- `GET /api/v1/blockchain/blocks` - Get block list
+- `GET /api/v1/blockchain/transactions/{id}` - Get transaction details
+- `POST /api/v1/blockchain/verify` - Data integrity verification
 
-## セキュリティガイドライン
+## Security Guidelines
 
-### 暗号化
-- データベースの機密データはAES-256で暗号化
-- パスワードはbcryptでハッシュ化
-- API通信はTLS 1.3を使用
+### Encryption
+- Database sensitive data encrypted with AES-256
+- Passwords hashed with bcrypt
+- API communication uses TLS 1.3
 
-### 認証・認可
-- JWT トークンの有効期限は15分
-- リフレッシュトークンの有効期限は7日
-- RBAC による細かなアクセス制御
+### Authentication & Authorization
+- JWT token expiry: 15 minutes
+- Refresh token expiry: 7 days
+- Fine-grained access control with RBAC
 
-### 入力検証
-- 全ての入力データのバリデーション
-- SQLインジェクション対策
-- XSS対策
+### Input Validation
+- Validation of all input data
+- SQL injection prevention
+- XSS protection
 
-## テスト戦略
+## Testing Strategy
 
-### 単体テスト
-- カバレッジ 80% 以上
-- モック使用によるテスト分離
+### Unit Tests
+- Coverage 80%+
+- Test isolation using mocks
 
-### 統合テスト
-- API エンドポイントのテスト
-- データベース連携テスト
+### Integration Tests
+- API endpoint testing
+- Database integration testing
 
-### セキュリティテスト
-- 脆弱性スキャン
-- ペネトレーションテスト
+### Security Tests
+- Vulnerability scanning
+- Penetration testing
 
-## 開発規約
+## Development Standards
 
-### コードスタイル
-- gofmt によるコード整形
-- golint によるリント
-- ネーミング規約はGo標準に従う
+### Code Style
+- Code formatting with gofmt
+- Linting with golint
+- Naming conventions follow Go standards
 
-### コミット規約
-- Conventional Commits 形式を採用
-- feat: 新機能
-- fix: バグ修正
-- docs: ドキュメント
-- test: テスト
+### Commit Conventions
+- Adopt Conventional Commits format
+- feat: New features
+- fix: Bug fixes
+- docs: Documentation
+- test: Tests
 
-### パッケージ管理
-- Go Modules を使用
-- 依存関係の定期的な更新
+### Package Management
+- Use Go Modules
+- Regular dependency updates
 
-## デプロイメント
+## Deployment
 
-### 環境
+### Environments
 - Development
 - Staging  
 - Production
 
 ### CI/CD
-- GitHub Actions を使用
-- 自動テスト実行
-- Docker イメージビルド
-- K8s への自動デプロイ
+- Use GitHub Actions
+- Automated test execution
+- Docker image building
+- Automated deployment to K8s
 
 ---
 
-このガイドラインに従って、安全で信頼性の高い社内データ管理システムを構築してください。
+Please follow these guidelines to build a secure and reliable corporate data management system.

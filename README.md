@@ -1,266 +1,266 @@
-# プライベートブロックチェーン社内データ管理システム
+# Private Blockchain Corporate Data Management System
 
-企業向けプライベートブロックチェーンを利用した安全な社内データ管理システムです。データの改ざん防止、透明性の確保、細かなアクセス制御を実現し、企業の重要なデータを安全に管理します。
+A secure corporate data management system utilizing private blockchain technology. It prevents data tampering, ensures transparency, implements fine-grained access controls, and securely manages critical corporate data.
 
-## 特徴
+## Features
 
-- **プライベートブロックチェーン**: 全てのデータ操作がブロックチェーンに記録され、改ざんを防止
-- **役割ベースアクセス制御 (RBAC)**: 管理者、マネージャー、従業員、ゲストの4段階の権限管理
-- **データ暗号化**: AES-256による保存時暗号化とTLS通信
-- **監査ログ**: 全ての操作が詳細に記録され、コンプライアンス要件に対応
-- **バージョン管理**: ドキュメントの変更履歴を自動追跡
-- **細かな権限設定**: ファイル・フォルダ単位での詳細なアクセス制御
+- **Private Blockchain**: All data operations are recorded on the blockchain to prevent tampering
+- **Role-Based Access Control (RBAC)**: Four-tier permission management (Admin, Manager, Employee, Guest)
+- **Data Encryption**: AES-256 encryption at rest and TLS communication
+- **Audit Logging**: All operations are recorded in detail for compliance requirements
+- **Version Control**: Automatic tracking of document change history
+- **Fine-Grained Permissions**: Detailed access control at file/folder level
 
-## 技術スタック
+## Technology Stack
 
-### バックエンド
-- **Go 1.21+** - メインアプリケーション言語
-- **Gin** - HTTPウェブフレームワーク
-- **GORM** - ORMライブラリ
-- **PostgreSQL** - メインデータベース
-- **Redis** - キャッシュ・セッション管理
-- **JWT** - 認証トークン
+### Backend
+- **Go 1.21+** - Main application language
+- **Gin** - HTTP web framework
+- **GORM** - ORM library
+- **PostgreSQL** - Primary database
+- **Redis** - Cache and session management
+- **JWT** - Authentication tokens
 
-### インフラ
-- **Docker & Docker Compose** - コンテナ化
-- **Nginx** - リバースプロキシ・ロードバランサー
+### Infrastructure
+- **Docker & Docker Compose** - Containerization
+- **Nginx** - Reverse proxy and load balancer
 
-## プロジェクト構造
+## Project Structure
 
 ```
-├── cmd/                    # アプリケーションエントリーポイント
-│   └── server/            # メインサーバー
-├── internal/              # 内部パッケージ
-│   ├── api/              # API関連
-│   │   ├── handlers/     # HTTPハンドラー
-│   │   ├── middleware/   # ミドルウェア
-│   │   └── routes/       # ルーティング
-│   ├── blockchain/       # ブロックチェーン実装
-│   ├── config/           # 設定管理
-│   ├── database/         # データベース関連
-│   │   └── models/       # データモデル
-│   ├── security/         # セキュリティ機能
-│   │   ├── auth/         # 認証
-│   │   ├── crypto/       # 暗号化
-│   │   └── rbac/         # アクセス制御
-│   └── services/         # ビジネスロジック
-├── deployments/          # デプロイメント設定
-├── docs/                 # ドキュメント
-└── tests/                # テスト
+├── cmd/                    # Application entry points
+│   └── server/            # Main server
+├── internal/              # Internal packages
+│   ├── api/              # API related
+│   │   ├── handlers/     # HTTP handlers
+│   │   ├── middleware/   # Middleware
+│   │   └── routes/       # Routing
+│   ├── blockchain/       # Blockchain implementation
+│   ├── config/           # Configuration management
+│   ├── database/         # Database related
+│   │   └── models/       # Data models
+│   ├── security/         # Security features
+│   │   ├── auth/         # Authentication
+│   │   ├── crypto/       # Encryption
+│   │   └── rbac/         # Access control
+│   └── services/         # Business logic
+├── deployments/          # Deployment configuration
+├── docs/                 # Documentation
+└── tests/                # Tests
 ```
 
-## クイックスタート
+## Quick Start
 
-### 前提条件
+### Prerequisites
 
 - Go 1.21+
 - Docker & Docker Compose
-- PostgreSQL (Dockerを使用しない場合)
+- PostgreSQL (if not using Docker)
 
-### 1. リポジトリのクローン
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/nshmdayo/in-house-datamanagement-system-sample.git
 cd in-house-datamanagement-system-sample
 ```
 
-### 2. 開発環境のセットアップ
+### 2. Setup Development Environment
 
 ```bash
 make setup-dev
 ```
 
-### 3. 環境変数の設定
+### 3. Configure Environment Variables
 
 ```bash
 cp .env.example .env
-# .envファイルを編集して設定を調整
+# Edit .env file to adjust settings
 ```
 
-### 4. 依存関係のインストール
+### 4. Install Dependencies
 
 ```bash
 make deps
 ```
 
-### 5. Docker Composeでの起動
+### 5. Start with Docker Compose
 
 ```bash
 make docker-compose-up
 ```
 
-### 6. ローカル開発での起動
+### 6. Start for Local Development
 
 ```bash
-# データベースが起動していることを確認
-make dev  # ホットリロード付きで開発サーバー起動
+# Ensure database is running
+make dev  # Start development server with hot reload
 ```
 
-## API エンドポイント
+## API Endpoints
 
-### 認証
-- `POST /api/v1/auth/login` - ログイン
-- `POST /api/v1/auth/refresh` - トークン更新
-- `POST /api/v1/auth/logout` - ログアウト
-- `GET /api/v1/auth/profile` - プロファイル取得
+### Authentication
+- `POST /api/v1/auth/login` - Login
+- `POST /api/v1/auth/refresh` - Token refresh
+- `POST /api/v1/auth/logout` - Logout
+- `GET /api/v1/auth/profile` - Get profile
 
-### ユーザー管理
-- `GET /api/v1/users` - ユーザー一覧
-- `POST /api/v1/users` - ユーザー作成 (管理者のみ)
-- `GET /api/v1/users/:id` - ユーザー詳細
-- `PUT /api/v1/users/:id` - ユーザー更新
-- `DELETE /api/v1/users/:id` - ユーザー削除 (管理者のみ)
+### User Management
+- `GET /api/v1/users` - Get user list
+- `POST /api/v1/users` - Create user (Admin only)
+- `GET /api/v1/users/:id` - Get user details
+- `PUT /api/v1/users/:id` - Update user
+- `DELETE /api/v1/users/:id` - Delete user (Admin only)
 
-### ドキュメント管理
-- `GET /api/v1/documents` - ドキュメント一覧
-- `POST /api/v1/documents` - ドキュメント作成
-- `GET /api/v1/documents/:id` - ドキュメント詳細
-- `PUT /api/v1/documents/:id` - ドキュメント更新
-- `DELETE /api/v1/documents/:id` - ドキュメント削除
+### Document Management
+- `GET /api/v1/documents` - Get document list
+- `POST /api/v1/documents` - Create document
+- `GET /api/v1/documents/:id` - Get document details
+- `PUT /api/v1/documents/:id` - Update document
+- `DELETE /api/v1/documents/:id` - Delete document
 
-### ブロックチェーン
-- `GET /api/v1/blockchain/blocks` - ブロック一覧
-- `GET /api/v1/blockchain/transactions/:id` - トランザクション詳細
-- `POST /api/v1/blockchain/verify` - データ整合性検証
+### Blockchain
+- `GET /api/v1/blockchain/blocks` - Get block list
+- `GET /api/v1/blockchain/transactions/:id` - Get transaction details
+- `POST /api/v1/blockchain/verify` - Data integrity verification
 
-### 監査ログ
-- `GET /api/v1/audit/logs` - 監査ログ一覧 (管理者・マネージャーのみ)
-- `GET /api/v1/audit/statistics` - 統計情報
+### Audit Logs
+- `GET /api/v1/audit/logs` - Get audit logs (Admin/Manager only)
+- `GET /api/v1/audit/statistics` - Get statistics
 
-## 開発コマンド
+## Development Commands
 
 ```bash
-# 開発サーバー起動
+# Start development server
 make dev
 
-# ビルド
+# Build
 make build
 
-# テスト実行
+# Run tests
 make test
 
-# カバレッジ付きテスト
+# Run tests with coverage
 make test-coverage
 
-# リント
+# Lint
 make lint
 
-# フォーマット
+# Format code
 make fmt
 
-# セキュリティスキャン
+# Security scan
 make security
 
-# Docker イメージビルド
+# Build Docker image
 make docker-build
 
-# データベースマイグレーション
+# Database migration
 make db-migrate
 
-# データベースシード
+# Database seed
 make db-seed
 ```
 
-## セキュリティ機能
+## Security Features
 
-### 認証・認可
-- JWT ベースの認証
-- 役割ベースアクセス制御 (RBAC)
-- アカウントロック機能 (ログイン失敗時)
-- セッション管理
+### Authentication & Authorization
+- JWT-based authentication
+- Role-Based Access Control (RBAC)
+- Account lockout on failed login attempts
+- Session management
 
-### データ保護
-- AES-256 による保存時暗号化
-- TLS 1.3 による転送時暗号化
-- bcrypt によるパスワードハッシュ化
+### Data Protection
+- AES-256 encryption at rest
+- TLS 1.3 encryption in transit
+- bcrypt password hashing
 
-### 監査・ログ
-- 全操作の詳細ログ
-- セキュリティイベントの追跡
-- IP アドレス・User Agent の記録
+### Audit & Logging
+- Detailed logging of all operations
+- Security event tracking
+- IP address and User Agent recording
 
-## ブロックチェーン機能
+## Blockchain Features
 
-### 特徴
-- プライベートブロックチェーン実装
-- Proof of Work コンセンサス
-- Merkle Tree による効率的な検証
-- データ整合性の自動検証
+### Characteristics
+- Private blockchain implementation
+- Proof of Work consensus
+- Merkle Tree for efficient verification
+- Automatic data integrity verification
 
-### 記録される操作
-- ドキュメントの作成・更新・削除
-- アクセス権限の変更
-- ユーザー操作履歴
+### Recorded Operations
+- Document creation, updates, and deletion
+- Access permission changes
+- User operation history
 
-## テスト
+## Testing
 
 ```bash
-# 全テスト実行
+# Run all tests
 make test
 
-# カバレッジレポート生成
+# Generate coverage report
 make test-coverage
 
-# ベンチマークテスト
+# Benchmark tests
 make bench
 
-# ロードテスト
+# Load testing
 make load-test
 ```
 
-## デプロイメント
+## Deployment
 
-### Docker Compose (推奨)
+### Docker Compose (Recommended)
 
 ```bash
-# 本番環境での起動
+# Start in production
 make docker-compose-up
 
-# ログ確認
+# View logs
 make docker-compose-logs
 
-# 停止
+# Stop
 make docker-compose-down
 ```
 
 ### Kubernetes
 
 ```bash
-# Kubernetes マニフェストを適用
+# Apply Kubernetes manifests
 kubectl apply -f deployments/k8s/
 ```
 
-## モニタリング
+## Monitoring
 
-### ヘルスチェック
+### Health Check
 
 ```bash
 curl http://localhost:8080/health
 ```
 
-### メトリクス
+### Metrics
 
-アプリケーションメトリクスは `/metrics` エンドポイントで公開されています。
+Application metrics are exposed at the `/metrics` endpoint.
 
-## セキュリティ考慮事項
+## Security Considerations
 
-- 定期的な依存関係の更新
-- セキュリティパッチの適用
-- 監査ログの定期確認
-- バックアップの定期実行
+- Regular dependency updates
+- Security patch application
+- Regular audit log review
+- Regular backup execution
 
-## ライセンス
+## License
 
-このプロジェクトは MIT ライセンスの下で公開されています。
+This project is released under the MIT License.
 
-## コントリビューション
+## Contribution
 
-1. フォークする
-2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add some amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
 
-## サポート
+## Support
 
-質問や問題がある場合は、GitHub Issues でお知らせください。
+If you have questions or issues, please let us know through GitHub Issues.
